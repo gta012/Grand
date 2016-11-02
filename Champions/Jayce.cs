@@ -256,10 +256,10 @@ namespace Looksharp.Champions
                     return;
                 }
                 // E hammer
-                if (MiscMenu["jayce.killsteal.e"].Cast<CheckBox>().CurrentValue && (Edmg(target)) > target.Health &&
+                if (MiscMenu["jayce.killsteal.e"].Cast<CheckBox>().CurrentValue && (Qdmg(target) * 2.0f) > target.Health &&
                     CD[2] == 0 && E.IsInRange(target) && (isMelee || ((!isMelee && R.IsReady() && R.Cast()))))
                 {
-                    E.Cast(target);
+                    Q.Cast(target);
                     return;
                 }
             }
