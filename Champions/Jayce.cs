@@ -63,7 +63,7 @@ namespace Looksharp.Champions
             MiscMenu.Add("jayce.gatedistance", new Slider("Gate Distance", 60, 60, 400));
 
             MiscMenu.AddGroupLabel("Kill Steal");
-            MiscMenu.Add("jayce.killsteal.qe", new CheckBox("Use QE Cannon"));
+            MiscMenu.Add("jayce.killsteal.qe", new CheckBox("Use QE12 Cannon"));
             MiscMenu.Add("jayce.killsteal.q2", new CheckBox("Use Q Cannon"));
             MiscMenu.Add("jayce.killsteal.e", new CheckBox("Use E Hammer"));
 
