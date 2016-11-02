@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using EloBuddy;
+using EloBuddy.SDK;
 using EloBuddy.SDK.Events;
-using Looksharp.Champions;
-using Looksharp.Utilities;
 
-namespace Looksharp
+namespace LookSharp
 {
     class Program
     {
@@ -15,16 +15,8 @@ namespace Looksharp
 
         private static void OnLoadingComplete(EventArgs args)
         {
-            try
-            {
-                Base Instance = (Base)Activator.CreateInstance(null, "Looksharp.Champions." + Player.Instance.ChampionName).Unwrap();
-                Chat.Print("LookSharp => " + Player.Instance.ChampionName + " Loaded!");
-            }
-            catch (Exception)
-            {
-                Chat.Print("LookSharp => " + Player.Instance.ChampionName + " Not supported!");
-            }
-            Load.Init();
+            Plugin.Init();
+            Utility.Init();
         }
     }
 }

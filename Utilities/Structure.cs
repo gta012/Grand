@@ -9,19 +9,18 @@ using EloBuddy.SDK.Menu.Values;
 using EloBuddy.SDK.Rendering;
 using SharpDX;
 
-namespace Looksharp.Utilities
+namespace LookSharp.Utilities
 {
-    internal class Structure
+    class Structure : Utility
     {
-        private static Menu StructureMenu;
-        private static AIHeroClient hero = Player.Instance;
+        private Menu StructureMenu;
         private static readonly int TurretRange = 875 /*+ Program.myHero.BoundingRadius*/;
-        private static GameObject target;
-        private static Obj_AI_Base turret;
+        private GameObject target;
+        private Obj_AI_Base turret;
 
-        public static void Init()
+        public Structure()
         {
-            StructureMenu = Load.UtilityMenu.AddSubMenu("Structure", "Structure");
+            StructureMenu = UtilityMenu.AddSubMenu("Structure", "Structure");
             StructureMenu.AddGroupLabel("Options");
             StructureMenu.Add("structure.enable", new CheckBox("Enable"));
             StructureMenu.Add("structure.target", new CheckBox("Draw Turret Target", false));
@@ -31,7 +30,7 @@ namespace Looksharp.Utilities
             Obj_AI_Base.OnBasicAttack += OnBasicAttack;
         }
 
-        private static void OnEndScene(EventArgs args)
+        private void OnEndScene(EventArgs args)
         {
             if (StructureMenu["structure.enable"].Cast<CheckBox>().CurrentValue)
             {
@@ -47,7 +46,7 @@ namespace Looksharp.Utilities
 
                 foreach (Obj_Turret unit in ObjectManager.Get<Obj_Turret>().Where(x => x.HealthPercent > 0))
                 {
-
+                    
                     Vector2 pos = Drawing.WorldToMinimap(unit.Position);
                     float health = unit.HealthPercent;
 
@@ -59,8 +58,8 @@ namespace Looksharp.Utilities
                         Drawing.DrawText(pos[0], pos[1], System.Drawing.Color.Orange, health.ToString("0"));
                     else if (health < 25)
                         Drawing.DrawText(pos[0], pos[1], System.Drawing.Color.Red, health.ToString("0"));
-
-                    float distance = hero.Position.Distance(unit.Position);
+                    
+                    float distance = myHero.Position.Distance(unit.Position);
                     if (distance < TurretRange + 512)
                     {
                         int color = SharpDX.Color.Yellow.ToAbgr() - ((int)(distance > TurretRange ? (TurretRange + 512 - distance) / 2 : 255) << 16);
@@ -101,9 +100,9 @@ namespace Looksharp.Utilities
             }
         }
 
-        private static void OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
+        private void OnBasicAttack(Obj_AI_Base sender, GameObjectProcessSpellCastEventArgs args)
         {
-            if (StructureMenu["structure.target"].Cast<CheckBox>().CurrentValue && sender.IsStructure() && sender.Distance(hero.Position) < 3000)
+            if (StructureMenu["structure.target"].Cast<CheckBox>().CurrentValue && sender.IsStructure() && sender.Distance(myHero.Position) < 3000)
             {
                 target = args.Target;
                 turret = sender;

@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 using EloBuddy;
 using EloBuddy.SDK;
-using EloBuddy.SDK.Enumerations;
+using EloBuddy.SDK.Events;
 using EloBuddy.SDK.Menu;
-using EloBuddy.SDK.Menu.Values;
+using EloBuddy.SDK.Rendering;
 using SharpDX;
+using LookSharp.Plugins;
 
-namespace Looksharp
+
+namespace LookSharp
 {
-    internal static class Helper
+    abstract class Helper
     {
-        public static bool WillKill(Spell.SpellBase spell, Obj_AI_Base target, float multiplier = 1)
-        {
-            return Player.Instance.GetSpellDamage(target, spell.Slot) * multiplier >= spell.GetHealthPrediction(target);
-        }
-
         public static Vector3 extend(Vector3 position, Vector3 target, float distance, int towards) // towards/away from target
         {
             return position + Vector3.Normalize(towards * (target - position)) * distance;
@@ -31,6 +28,11 @@ namespace Looksharp
             double y = ((rotated.X - around.X) * sin) + ((rotated.Y - around.Y) * cos) + around.Y;
 
             return new Vector3((float)x, (float)y, rotated.Z);
+        }
+
+        public static bool IsValidTarget(AIHeroClient target)
+        {
+            return target.IsValid && target.IsEnemy && !target.IsDead && !target.IsInvulnerable && !target.IsZombie;
         }
 
         public static bool HasSmite(AIHeroClient target)
