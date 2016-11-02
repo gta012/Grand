@@ -63,7 +63,7 @@ namespace Looksharp.Champions
             MiscMenu.Add("jayce.gatedistance", new Slider("Gate Distance", 60, 60, 400));
 
             MiscMenu.AddGroupLabel("Kill Steal");
-            MiscMenu.Add("jayce.killsteal.qe", new CheckBox("Use QE12 Cannon"));
+            MiscMenu.Add("jayce.killsteal.qe", new CheckBox("Use QE Cannon"));
             MiscMenu.Add("jayce.killsteal.q2", new CheckBox("Use Q Cannon"));
             MiscMenu.Add("jayce.killsteal.e", new CheckBox("Use E Hammer"));
 
@@ -249,10 +249,10 @@ namespace Looksharp.Champions
                     return;
                 }
                 // Q cannon
-                if (MiscMenu["jayce.killsteal.q2"].Cast<CheckBox>().CurrentValue && (Q2dmg(target)) > target.Health &&
-                    CD[3] == 0 && CD[5] != 0 && (!isMelee || ((isMelee && R.IsReady() && R.Cast()))))
+                if (MiscMenu["jayce.killsteal.qe"].Cast<CheckBox>().CurrentValue && (Qdmg(target) + AAdmg(target) + Edmg(target)) > target.Health &&
+                    CD[2] == 0 && E.IsInRange(target) && (isMelee || ((!isMelee && R.IsReady() && R.Cast()))))
                 {
-                    Q2.Cast(target);
+                    Q.Cast(target);
                     return;
                 }
                 // E hammer
@@ -260,13 +260,6 @@ namespace Looksharp.Champions
                     CD[2] == 0 && E.IsInRange(target) && (isMelee || ((!isMelee && R.IsReady() && R.Cast()))))
                 {
                     E.Cast(target);
-                    return;
-                }
-                // Q hammer
-                if (MiscMenu["jayce.killsteal.qe"].Cast<CheckBox>().CurrentValue && (Qdmg(target) + AAdmg(target) + Edmg(target)) > target.Health &&
-                    CD[2] == 0 && E.IsInRange(target) && (isMelee || ((!isMelee && R.IsReady() && R.Cast()))))
-                {
-                    Q.Cast(target);
                     return;
                 }
             }
